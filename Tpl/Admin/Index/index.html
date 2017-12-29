@@ -1,0 +1,20 @@
+<extend name="Public:base"/>
+<block name="title">后台首页</block>
+<block name="css">
+    <style>
+        .title{
+            text-align:center;
+            cursor:default;
+        }
+    </style>
+</block>
+<block name="content">
+    <h2 class="title">欢迎使用blogs后台管理系统</h2>
+</block>
+<block name="js">
+    <script>
+        var str = '';
+        str+='<span class="selected"></span>';
+        $('.nav-box li').eq(1).addClass('active').children('a').append(str)
+    </script>
+</block>

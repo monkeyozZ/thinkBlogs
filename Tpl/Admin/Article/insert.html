@@ -1,0 +1,190 @@
+<extend name="Public:base"/>
+<block name="title">文章列表</block>
+<block name="css">
+    <style>
+        .page-bar {
+            margin-bottom: 20px!important;
+        }
+        .form-control, output{
+            display: inline-block;
+        }
+        label{
+            vertical-align: top;
+        }
+        textarea.form-control{
+            height: 85px!important;
+            resize: none;
+        }
+        .page-content{
+            overflow: hidden;
+        }
+        .form .form-actions, .portlet-form .form-actions{
+            background-color: #fff;
+            border-top: none;
+            max-width: 1100px;
+        }
+        @media (max-width: 414px) {
+            #edui1{
+                width: 300px!important;
+                height: 400px!important;
+            }
+        }
+    </style>
+</block>
+<block name="content">
+    <!-- BEGIN PAGE BAR -->
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <a href="{:U('index/index')}">首页</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a href="javascript:;">文章管理</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>添加文章</span>
+            </li>
+        </ul>
+    </div>
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="col-md-12">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-plus-circle"></i>添加文章</div>
+            </div>
+            <div class="portlet-body">
+                <form role="form" action="__URL__/insert" id="myform" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>文章标题：</label>
+                        <input type="text" class="form-control input-large" name="title" id="title" placeholder="文章标题">
+                    </div>
+                    <div class="form-group">
+                        <label>文章描述：</label>
+                        <textarea class="form-control input-large" name="des" id="des" placeholder="文章描述"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>列表图片上传：</label>
+                        <input type="file" id="listimg" name='listimg'  style="display: inline-block">
+                        <img src="" alt="">
+                    </div>
+                    <div class="form-group">
+                        <label>文章分类：</label>
+                        <select class="form-control input-small" name="category" id="category">
+                            <option value="1">Option 1</option>
+                            <option value="">Option 2</option>
+                            <option value="">Option 3</option>
+                            <option value="">Option 4</option>
+                            <option value="">Option 5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>文章标签：</label>
+                        <select class="form-control input-small" name="tag" id="tag">
+                            <option value="1">Option 1</option>
+                            <option value="">Option 2</option>
+                            <option value="">Option 3</option>
+                            <option value="">Option 4</option>
+                            <option value="">Option 5</option>
+                        </select>
+                    </div>
+                    <textarea id="Uedit" class="Uedit" name="content" type="text/plain"></textarea>
+
+                    <div class="portlet-body form">
+                        <div class="form-actions right">
+                            <button type="submit" class="btn green">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END SAMPLE TABLE PORTLET-->
+</block>
+<block name="js">
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="__PUBLIC_/Ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="__PUBLIC_/Ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" src="__PUBLIC_/assets/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC_/layer/layer.js"></script>
+    <script>
+        var str = '';
+        str+='<span class="selected open"></span>';
+        $('.nav-box li').eq(2).addClass('active open').children('a').children('.arrow').addClass('open');
+        $('.nav-box li').eq(2).children('a').append(str);
+        $('.nav-box li').eq(2).children('ul.sub-menu').children('li').eq(1).addClass('active open')
+
+        $(document).ready(function () {
+            UE.getEditor('Uedit', {
+                initialFrameHeight: 500,
+                initialFrameWidth: 1100,
+                imageUrlPrefix:'127.0.0.1'
+
+            })
+        })
+
+        $(function() {
+            $("#myform").validate({
+                onfocusout: false,
+                onkeyup: false,
+                rules: {
+                    title: {
+                        required: true
+                    },
+
+                    des: {
+                        required: true
+                    },
+                    listimg: {
+                        required: true
+                    },
+                    category: {
+                        required: true
+                    },
+                    tag: {
+                        required: true
+                    },
+                    content: {
+                        required: true
+                    }
+                },
+
+                messages: {
+                    title: {
+                        required: '标题忘了啦？'
+                    },
+                    des: {
+                        required: '描述忘了啦'
+                    },
+                    listimg: {
+                        required: '列表图片必须噢'
+                    },
+                    category: {
+                        required: '所属分类必填噢'
+                    },
+                    tag: {
+                        required: '所属类别标签必填噢'
+                    },
+                    content: {
+                        required: '文章内容必填噢'
+                    }
+
+                },
+            //重写showErrors
+                showErrors: function (errorMap, errorList) {
+                    var msg = "";
+                    $.each(errorList, function (i, v) {
+                        layer.tips(v.message,'#'+v.element.id,{
+                            tips:["2","#3598dc"]
+                        });
+                        return false;
+                    });
+                }
+            });
+        })
+
+    </script>
+</block>
