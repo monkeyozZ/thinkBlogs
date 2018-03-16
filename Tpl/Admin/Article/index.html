@@ -75,7 +75,7 @@
                             <td> {$v['creat_time']} </td>
                             <td>
                                 <a href="{:U('Article/updata', Array('id'=>$v['id']))}" class="btn btn-outline btn-circle btn-sm purple"><i class="fa fa-edit">编辑</i></a>
-                                <a href="" class="btn btn-outline btn-circle red btn-sm blue"><i class="fa fa-trash-o">删除</i></a>
+                                <a href="{:U('Article/delete', Array('id'=>$v['id']))}" onclick="if(confirm('你确定要删除吗?')==false){return false}" class="btn btn-outline btn-circle red btn-sm blue"><i class="fa fa-trash-o">删除</i></a>
                             </td>
                         </tr>
 

@@ -11,7 +11,7 @@ class BaseController extends Controller {
 			$this->error('您没有权限访问',U('login/login'));
 		}
 		//同步用户名
-		$name = session("info.username");
+		$name = session("userinfo.username");
 		$this->assign("username",$name);
 
 		// 分配菜单数据

@@ -102,6 +102,7 @@ class Auth{
         if (!$this->_config['AUTH_ON'])
             return true;
         $authList = $this->getAuthList($uid,$type); //获取用户需要验证的所有有效规则列表
+       // p($authList);die;
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -174,6 +175,7 @@ class Auth{
 
         //读取用户所属用户组
         $groups = $this->getGroups($uid);
+        //p($groups);die;
         //return $groups;
         $ids = array();//保存用户所属用户组设置的所有权限规则id
         foreach ($groups as $g) {
@@ -192,6 +194,7 @@ class Auth{
         );
         //读取用户组所有权限规则
         $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
+        //p($rules);die;
         //循环规则，判断结果。
         $authList = array();   //
         foreach ($rules as $rule) {

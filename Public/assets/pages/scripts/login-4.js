@@ -47,8 +47,16 @@ var Login = function () {
 	            },
 
 	            submitHandler: function (form) {
+	            	var status = $('.remember').is(':checked');
 	            	var username = $('.username').val();
 	            	var password = $('.password').val();
+                    var remember = 0;
+                    //alert(status)
+	            	if(status){
+                        remember = $('.remember').val()
+					}
+
+                    //remember =
 	            	var host = window.location.host;
 	                $.ajax({
 	                    	type: "post",
@@ -56,7 +64,8 @@ var Login = function () {
 	                    	dataType: "json",
 	                    	data: {
 	                    		'username': username,
-	                    		'password': password
+	                    		'password': password,
+								'remember': remember
 	                    		},
                     		success: function(res){
                     			console.log(res)

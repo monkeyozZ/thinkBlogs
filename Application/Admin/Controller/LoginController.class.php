@@ -9,21 +9,35 @@ class LoginController extends Controller {
 		$this->success('欢迎回来',U('index/index'));die;
 		}
 
+		$user_info_str = cookie('userinfo');
+		$user_info_arr = json_decode($user_info_str,true);
+		//p($user_info_arr);die;
+
     	if(IS_AJAX){
     		if(IS_POST){
     			$username = I('post.username');
     			$password = I('post.password');
-    			$account = M('account');
+    			$remember = I('post.remember');
+    			//p($_POST);die;
+    			$user = M('users');
     			$msgarr = [];
-    			$data = $account->where(array('username'=>$username))->find();
+    			$data = $user->where(array('username'=>$username))->find();
     			if($data){
     				if($data['password'] == md5($password)){
     					$info = array(
     						'username'=>$data['username'],
-    						'password'=>$data['password'],
-    						'level'=>$data['id']
+    						'password'=>$password,
+    						'level'=>$data['id'],
+                            'is_remember'=>$remember
     						);
-    					session('userinfo',$info);
+                        $user->where(array('username'=>$username))->save(array('last_login_time'=>time()));
+    					if($remember == 1){
+    					    cookie('userinfo',json_encode($info),3600*12);
+                        }else{
+                            cookie('userinfo',null);
+                        }
+                        session('userinfo',$info);
+                        //p($_SESSION);die;
     					$this->success('登录成功',U('index/index'));
     				}else{
     					$msgarr['type'] = '1';
@@ -37,6 +51,7 @@ class LoginController extends Controller {
     			}
     		}
     	}
+    	$this->assign('userinfo',$user_info_arr);
       $this->display();
     }
 

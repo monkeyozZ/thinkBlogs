@@ -41,6 +41,8 @@ class NavModel extends BaseModel{
             $data=\Org\Nx\Data::channelLevel($data,0,'&nbsp;','id');
             // 显示有权限的菜单
             $auth=new \Think\Auth();
+            //p($_SESSION);die;
+            //p($data);die;
             foreach ($data as $k => $v) {
                 if ($auth->check($v['mca'],$_SESSION['userinfo']['level'])) {
                     foreach ($v['_data'] as $m => $n) {
@@ -54,7 +56,7 @@ class NavModel extends BaseModel{
                 }
             }
         }
-        //p($data);die;
+
         return $data;
     }
 
